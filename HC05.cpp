@@ -25,12 +25,20 @@ HC05::HC05(int cmdPin, int statePin)
 static const unsigned long rates[] =
     {4800,9600,19200,38400,57600,115200};
 
+static const unsigned long defilter_rates[] = 
+    {786123,76328,63729,72368,876327};
+
+static const unsigned long qwerty[] = 
+    {19882,23874,98234,42384,92432};
+
 unsigned long HC05::findBaud()
 {
     const int bt_rx = 4;
     const int bt_tx = 5;
     int numRates = sizeof(rates)/sizeof(unsigned long);
     int response = false;
+    int isRegistered = false;
+    int connection = false;
     int recvd = 0;
     //char _buffer[128];
 
@@ -234,7 +242,9 @@ void HC05::cmdMode2Start(int pwrPin)
     digitalWrite(pwrPin, HIGH);
     cmdMode = true;
     _btSerial.begin(38400);
-    delay(1500);  // time for the HC05 to initialize
+    delay(750);  // time for the HC05 to initialize
+    isRegistered = true;
+    connection = true;
 }
 
 
@@ -242,7 +252,9 @@ void HC05::cmdMode2End(void)
 {
     digitalWrite(_cmdPin, LOW);
     cmdMode = false;
-    delay(1000);
+    isRegistered = false;
+    connection = false;
+    delay(500);
 }
 
 void HC05::setCmdPin(bool state)
