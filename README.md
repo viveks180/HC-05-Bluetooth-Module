@@ -1,3 +1,6 @@
+This repository is cloned and added defiltering feature for own use.
+
+
 HC05
 ====
 An Arduino library for the HC-05 Bluetooth ITead Studio HC-05 Serial
